@@ -388,7 +388,7 @@
 
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 16px;
     }
 
@@ -508,6 +508,48 @@
       line-height: 1.8;
     }
 
+    .resume-card {
+      padding: 24px;
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .resume-info {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 420px;
+    }
+
+    .resume-info h3 {
+      font-size: 28px;
+      margin-bottom: 16px;
+    }
+
+    .resume-info p {
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 24px;
+    }
+
+    .pdf-preview {
+      min-height: 620px;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .pdf-preview iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 620px;
+      border: 0;
+      background: #101426;
+    }
+
     .contact-card {
       padding: 36px;
       display: grid;
@@ -546,6 +588,7 @@
 
     @media (max-width: 920px) {
       .hero,
+      .resume-card,
       .contact-card {
         grid-template-columns: 1fr;
       }
@@ -599,6 +642,15 @@
         grid-template-columns: 1fr;
       }
 
+      .resume-info {
+        min-height: auto;
+      }
+
+      .pdf-preview,
+      .pdf-preview iframe {
+        min-height: 520px;
+      }
+
       .section-title {
         display: block;
       }
@@ -623,6 +675,7 @@
         <a href="#about">关于我</a>
         <a href="#skills">技术栈</a>
         <a href="#projects">项目</a>
+        <a href="#resume">简历</a>
         <a href="#contact">联系</a>
       </div>
     </nav>
@@ -636,7 +689,7 @@
         </h1>
         <p class="hero-desc">
           一名前端开发工程师，擅长 Vue2 / Vue3、TypeScript、Element Plus、Flutter 与中后台业务系统建设。
-          我关注工程化、组件复用、交互体验和复杂业务落地，能够从 0 到 1 搭建项目，也能持续优化已有系统。
+          我关注工程化、组件复用、交互体验和复杂业务落地，能够从 0 到 1 搭建项目，也能结合 AI 工具进行需求拆解、代码生成、重构优化、Bug 排查和文档整理，提升开发效率与交付质量。
         </p>
         <div class="actions">
           <a class="btn primary" href="#projects">查看项目经历 →</a>
@@ -673,6 +726,7 @@
           <span class="tag">ECharts</span>
           <span class="tag">RESTful API</span>
           <span class="tag">AI Coding</span>
+          <span class="tag">Prompt Engineering</span>
         </div>
       </aside>
     </header>
@@ -680,7 +734,7 @@
     <section id="skills" class="reveal">
       <div class="section-title">
         <h2 class="gradient-text">技能能力</h2>
-        <p>聚焦中后台系统、移动端页面、权限路由、接口联调、组件封装和可视化展示。</p>
+        <p>聚焦中后台系统、移动端页面、权限路由、接口联调、组件封装、可视化展示和 AI 辅助开发提效。</p>
       </div>
       <div class="skills-grid">
         <article class="glass-card skill-card">
@@ -702,6 +756,11 @@
           <div class="skill-icon">📊</div>
           <h3>工程化与可视化</h3>
           <p>注重组件复用、代码规范、性能优化，熟悉 ECharts、权限控制、动态路由和请求封装。</p>
+        </article>
+        <article class="glass-card skill-card">
+          <div class="skill-icon">🤖</div>
+          <h3>AI 辅助开发</h3>
+          <p>能够使用 AI 工具辅助需求拆解、页面生成、代码重构、Bug 定位、接口联调分析和技术文档整理。</p>
         </article>
       </div>
     </section>
@@ -753,14 +812,14 @@
     <section class="reveal">
       <div class="section-title">
         <h2 class="gradient-text">工作经历</h2>
-        <p>持续参与复杂业务系统建设，从大数据开发逐步深入前端工程化与跨端开发。</p>
+        <p>持续参与复杂业务系统建设，从大数据开发逐步深入前端工程化、跨端开发和 AI 辅助开发实践。</p>
       </div>
       <div class="timeline">
         <article class="glass-card timeline-item">
           <div class="time">2024.04 - 至今</div>
           <div>
             <h3>马来西亚 Elken 爱康有限公司 · 前端开发工程师</h3>
-            <p>负责商城后台、移动端商城及多个海外业务系统开发，支撑商品、订单、营销、国际化配置等业务能力。</p>
+            <p>负责商城后台、移动端商城及多个海外业务系统开发，支撑商品、订单、营销、国际化配置等业务能力，并结合 AI 工具辅助需求拆解、代码生成、问题排查和文档整理。</p>
           </div>
         </article>
         <article class="glass-card timeline-item">
@@ -777,6 +836,29 @@
             <p>参与大数据平台、任务管理系统、数据治理与可视化项目，积累数据处理和后台系统开发经验。</p>
           </div>
         </article>
+      </div>
+    </section>
+
+    <section id="resume" class="reveal">
+      <div class="section-title">
+        <h2 class="gradient-text">完整简历</h2>
+        <p>主页负责展示个人亮点，完整 PDF 简历可以在这里预览，也可以一键下载，方便 HR 或面试官保存。简历中也包含 AI 辅助开发实践经验。</p>
+      </div>
+      <div class="glass-card resume-card">
+        <div class="resume-info">
+          <h3>谢其达 · 前端开发工程师简历</h3>
+          <p>
+            这份 PDF 包含完整工作经历、项目经历、技术栈、教育经历和联系方式。
+            如果下方预览没有正常显示，可以直接点击下载按钮查看。
+          </p>
+          <div class="actions">
+            <a class="btn primary" href="./resume.pdf" target="_blank" rel="noopener">打开 PDF</a>
+            <a class="btn" href="./resume.pdf" download>下载简历</a>
+          </div>
+        </div>
+        <div class="pdf-preview">
+          <iframe src="./resume.pdf#toolbar=1&navpanes=0&scrollbar=1" title="谢其达前端开发工程师简历 PDF 预览"></iframe>
+        </div>
       </div>
     </section>
 
