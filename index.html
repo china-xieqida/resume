@@ -82,29 +82,140 @@
       padding: 28px 0 80px;
     }
 
+    .nav-placeholder {
+      display: none;
+      width: 100%;
+      pointer-events: none;
+    }
+
     .nav {
-      position: sticky;
-      top: 18px;
-      z-index: 10;
+      position: relative;
+      z-index: 100;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
       padding: 14px 18px;
       margin-bottom: 72px;
-      border: 1px solid var(--card-border);
       border-radius: 999px;
-      background: rgba(5, 8, 22, 0.55);
-      backdrop-filter: blur(18px);
-      box-shadow: 0 18px 60px rgba(0, 0, 0, 0.25);
+      background: rgba(5, 8, 22, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition:
+        width 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        top 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        padding 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        background 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.55s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity 0.55s ease;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    /* 滚动到指定高度后：真正脱离文档流，固定到视口顶部 */
+    .nav.nav-fixed {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      width: min(1060px, calc(100% - 40px));
+      margin-bottom: 0;
+      animation: navDockIn 0.58s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+
+    /* 固定后的科技感状态 */
+    .nav.nav-scrolled {
+      padding: 10px 18px;
+      background: rgba(5, 8, 22, 0.86);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-color: transparent;
+      box-shadow:
+        0 18px 40px rgba(0, 0, 0, 0.4),
+        0 0 0 1px rgba(124, 58, 237, 0.42),
+        0 0 20px rgba(6, 182, 212, 0.24),
+        0 0 35px rgba(236, 72, 153, 0.16);
+    }
+
+    @keyframes navDockIn {
+      0% {
+        opacity: 0.25;
+        transform: translateX(-50%) translateY(-18px) scale(0.96);
+        filter: blur(6px);
+      }
+      65% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(2px) scale(0.99);
+        filter: blur(0);
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(0.985);
+        filter: blur(0);
+      }
+    }
+
+    .nav::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+      transform: translateX(-150%) skewX(-15deg);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: -1;
+    }
+
+    .nav.nav-scrolled::before {
+      opacity: 1;
+      animation: navScan 4s linear infinite;
+    }
+
+    .nav::after {
+      content: "";
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(120deg, rgba(6, 182, 212, 0.55), rgba(124, 58, 237, 0.45), rgba(236, 72, 153, 0.45));
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+
+    .nav.nav-scrolled::after {
+      opacity: 1;
+      animation: navBreath 3.2s ease-in-out infinite;
+    }
+
+    @keyframes navScan {
+      0% { transform: translateX(-150%) skewX(-15deg); }
+      100% { transform: translateX(250%) skewX(-15deg); }
+    }
+
+    @keyframes navBreath {
+      0%, 100% { opacity: 0.45; filter: blur(0); }
+      50% { opacity: 0.95; filter: blur(0.3px); }
     }
 
     .logo {
+      position: relative;
+      z-index: 1;
       display: flex;
       align-items: center;
       gap: 10px;
       font-weight: 800;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
 
     .logo-dot {
@@ -116,21 +227,55 @@
     }
 
     .nav-links {
+      position: relative;
+      z-index: 1;
       display: flex;
-      gap: 18px;
+      gap: 10px;
       align-items: center;
     }
 
     .nav-links a {
+      position: relative;
       color: var(--muted);
       text-decoration: none;
       font-size: 14px;
-      transition: 0.25s ease;
+      padding: 6px 12px;
+      border-radius: 999px;
+      transition:
+        color 0.3s ease,
+        background 0.3s ease,
+        text-shadow 0.3s ease,
+        transform 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #fff;
+      text-shadow: 0 0 16px rgba(6, 182, 212, 0.8);
+      background: rgba(255, 255, 255, 0.06);
     }
 
     .nav-links a:hover {
-      color: #fff;
-      text-shadow: 0 0 16px rgba(6, 182, 212, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 3px;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 16px;
+      height: 2px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, var(--secondary), var(--primary));
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: center;
+    }
+
+    .nav-links a.active::after {
+      transform: translateX(-50%) scaleX(1);
     }
 
     .hero {
@@ -361,6 +506,11 @@
       background: rgba(255,255,255,0.08);
       border: 1px solid rgba(255,255,255,0.14);
       font-size: 13px;
+    }
+
+    section,
+    header {
+      scroll-margin-top: 130px;
     }
 
     section {
@@ -611,17 +761,36 @@
       }
 
       .nav {
+        top: 10px;
         border-radius: 24px;
         align-items: flex-start;
         flex-direction: column;
         margin-bottom: 46px;
+        padding: 12px;
+      }
+
+      .nav.nav-scrolled {
+        top: 8px;
+        padding: 10px 12px;
+        transform: none;
       }
 
       .nav-links {
         width: 100%;
-        justify-content: space-between;
-        gap: 10px;
-        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 8px;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 4px;
+        scrollbar-width: none;
+      }
+
+      .nav-links::-webkit-scrollbar {
+        display: none;
+      }
+
+      .nav-links a {
+        flex: 0 0 auto;
       }
 
       h1 {
@@ -675,6 +844,7 @@
         <a href="#about">关于我</a>
         <a href="#skills">技术栈</a>
         <a href="#projects">项目</a>
+        <a href="#experience">经历</a>
         <a href="#resume">简历</a>
         <a href="#contact">联系</a>
       </div>
@@ -809,7 +979,7 @@
       </div>
     </section>
 
-    <section class="reveal">
+    <section id="experience" class="reveal">
       <div class="section-title">
         <h2 class="gradient-text">工作经历</h2>
         <p>持续参与复杂业务系统建设，从大数据开发逐步深入前端工程化、跨端开发和 AI 辅助开发实践。</p>
@@ -1002,6 +1172,139 @@
     }, { threshold: 0.14 });
 
     document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+
+    // 导航栏：滚动到一定高度后真正 fixed 固定 + Scroll Spy 当前 Tab 高亮
+    const nav = document.querySelector('.nav');
+    const navLinks = Array.from(document.querySelectorAll('.nav-links a[href^="#"]'));
+    const navPlaceholder = document.createElement('div');
+    navPlaceholder.className = 'nav-placeholder';
+    nav.parentNode.insertBefore(navPlaceholder, nav);
+
+    const sectionMap = navLinks
+      .map((link) => {
+        const id = link.getAttribute('href').replace('#', '');
+        const section = document.getElementById(id);
+        return section ? { id, link, section } : null;
+      })
+      .filter(Boolean);
+
+    // 导航滚动多少后进入固定状态。你想更早固定就调小，比如 40；更晚就调大，比如 140。
+    const FIX_START = 90;
+
+    function getNavOffset() {
+      const navHeight = nav ? nav.offsetHeight : 0;
+      return navHeight + 34;
+    }
+
+    function setActiveLink(activeId) {
+      navLinks.forEach((link) => {
+        const linkId = link.getAttribute('href').replace('#', '');
+        const isActive = linkId === activeId;
+        link.classList.toggle('active', isActive);
+
+        // 移动端横向导航时，让当前 tab 自动出现在可视区域
+        if (isActive && window.innerWidth <= 640) {
+          link.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+        }
+      });
+    }
+
+    function setNavFixed(shouldFixed) {
+      if (!nav) return;
+
+      if (shouldFixed) {
+        // 固定前先撑住原来的位置，避免页面突然上跳
+        navPlaceholder.style.display = 'block';
+        navPlaceholder.style.height = nav.offsetHeight + 72 + 'px';
+        nav.classList.add('nav-fixed', 'nav-scrolled');
+      } else {
+        nav.classList.remove('nav-fixed', 'nav-scrolled');
+        navPlaceholder.style.display = 'none';
+        navPlaceholder.style.height = '0px';
+      }
+    }
+
+    function updateNavState() {
+      if (!nav || !sectionMap.length) return;
+
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+      setNavFixed(scrollY > FIX_START);
+
+      const checkLine = scrollY + getNavOffset() + 90;
+      let currentId = sectionMap[0].id;
+
+      sectionMap.forEach(({ id, section }) => {
+        if (section.offsetTop <= checkLine) {
+          currentId = id;
+        }
+      });
+
+      setActiveLink(currentId);
+    }
+
+    // 点击导航：平滑滚动到对应 section，并扣掉 fixed 导航高度
+    navLinks.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const targetId = link.getAttribute('href').replace('#', '');
+        const target = document.getElementById(targetId);
+        if (!target) return;
+
+        // 点击时先让导航进入 fixed 状态，这样计算高度更稳定
+        setNavFixed(true);
+
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset - getNavOffset();
+
+        window.scrollTo({
+          top: Math.max(targetTop, 0),
+          behavior: 'smooth'
+        });
+
+        setActiveLink(targetId);
+
+        if (history.pushState) {
+          history.pushState(null, '', '#' + targetId);
+        }
+      });
+    });
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateNavState();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    window.addEventListener('resize', () => {
+      // 重新计算占位高度，避免窗口变化后 fixed 导航遮挡或跳动
+      if (nav.classList.contains('nav-fixed')) {
+        navPlaceholder.style.height = nav.offsetHeight + 72 + 'px';
+      }
+      updateNavState();
+    });
+
+    window.addEventListener('load', () => {
+      updateNavState();
+
+      const hashId = window.location.hash.replace('#', '');
+      const hashTarget = hashId ? document.getElementById(hashId) : null;
+      if (hashTarget) {
+        setTimeout(() => {
+          setNavFixed(true);
+          const targetTop = hashTarget.getBoundingClientRect().top + window.pageYOffset - getNavOffset();
+          window.scrollTo({ top: Math.max(targetTop, 0), behavior: 'smooth' });
+          setActiveLink(hashId);
+        }, 80);
+      }
+    });
+
+    updateNavState();
   </script>
 </body>
 </html>
