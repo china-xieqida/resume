@@ -39,3 +39,4 @@ sections.forEach((section) => observer.observe(section));
 window.addEventListener("resize", () => {
   if (window.innerWidth >= 1024) closeMenu();
 });
+
